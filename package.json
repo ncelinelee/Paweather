@@ -1,0 +1,31 @@
+{
+  "name": "skala-vue-paweather",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "npm run lint && npm run build"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vueuse/core": "^14.3.0",
+    "axios": "^1.19.0",
+    "element-plus": "^2.14.4",
+    "leaflet": "^1.9.4",
+    "pinia": "^3.0.3",
+    "vite": "^7.1.0",
+    "vue": "^3.5.18",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.1",
+    "eslint-plugin-vue": "^10.10.0",
+    "globals": "^17.11.0"
+  }
+}
