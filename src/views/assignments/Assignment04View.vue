@@ -8,17 +8,17 @@ import { RouterLink } from 'vue-router'
       <RouterLink to="/" class="back">← Paweather 홈</RouterLink>
       <span class="step">ASSIGNMENT 04 · Weather Router</span>
       <h1>Weather Router</h1>
-      <p class="summary">기존 한 화면의 Paweather를 메인·상세·서비스 소개·후원 준비·과제 기록·404 페이지로 분리하고 내부 이동을 Vue Router로 통일함.</p>
+      <p class="summary">기존 한 화면의 Paweather를 메인·상세·서비스 소개·후원 준비·과제 기록·404 페이지로 분리하고 내부 이동을 Vue Router로 통일하였음.</p>
 
       <div class="section">
-        <h2>교재 요구사항</h2>
+        <h2>교재 요구사항 반영</h2>
         <ol>
-          <li>Vue Router 설정에 <strong>Lazy Loading</strong>과 <strong>Catch-all Route</strong> 적용</li>
-          <li><code>App.vue</code>에 Navigation과 <code>&lt;RouterView /&gt;</code> 배치</li>
-          <li><code>WeatherHomeView.vue</code>를 메인 날씨 화면으로 구성</li>
-          <li>상세보기의 <code>window.alert()</code>를 없애고 <code>router.push('/weather/' + id)</code>로 이동</li>
-          <li><code>WeatherDetailView.vue</code>에서 <code>:cityId</code>를 받아 Mock Data의 도시 상세정보 표시</li>
-          <li><code>WeatherAboutView.vue</code>와 본인의 추가 View를 Routing</li>
+          <li>Vue Router 설정에 <strong>Lazy Loading</strong>과 <strong>Catch-all Route</strong>를 적용하였음</li>
+          <li><code>App.vue</code>에 Navigation과 <code>&lt;RouterView /&gt;</code>를 배치하였음</li>
+          <li><code>WeatherHomeView.vue</code>를 메인 날씨 화면으로 구성하였음</li>
+          <li><code>window.alert()</code> 대신 <code>router.push('/weather/' + id)</code>로 상세 화면을 연결하였음</li>
+          <li><code>WeatherDetailView.vue</code>에서 <code>:cityId</code>를 받아 도시 상세정보를 표시하였음</li>
+          <li><code>WeatherAboutView.vue</code>와 추가 View를 Router에 등록하였음</li>
         </ol>
       </div>
 
@@ -56,7 +56,7 @@ import { RouterLink } from 'vue-router'
   name: 'not-found',
   component: () =&gt; import('@/views/NotFoundView.vue')
 }</code></pre>
-        <p>페이지 Component는 <code>() =&gt; import(...)</code> 형태로 Lazy Loading하고, 정의하지 않은 URL은 마지막 Catch-all Route에서 NotFoundView로 이동하도록 구성함.</p>
+        <p>페이지 Component는 <code>() =&gt; import(...)</code> 형태로 Lazy Loading하였고, 정의하지 않은 URL은 마지막 Catch-all Route에서 NotFoundView로 이동하도록 구성하였음.</p>
       </div>
 
       <div class="section">
@@ -64,7 +64,7 @@ import { RouterLink } from 'vue-router'
         <pre><code>const goToWeatherDetail = (weather) =&gt; {
   router.push('/weather/' + weather.id)
 }</code></pre>
-        <p>과제 1에서는 상세보기 버튼이 <code>window.alert()</code>를 띄웠지만, Router 학습 후에는 선택한 도시 id를 URL에 포함해 실제 상세 페이지로 이동하도록 변경함.</p>
+        <p>과제 1에서는 상세보기 버튼이 <code>window.alert()</code>를 띄웠지만, Router 학습 후에는 선택한 도시 id를 URL에 포함하여 실제 상세 페이지로 이동하도록 변경하였음.</p>
       </div>
 
       <div class="section">
@@ -76,21 +76,21 @@ onMounted(() =&gt; {
     (item) =&gt; item.id === route.params.cityId
   )
 })</code></pre>
-        <p><code>/weather/seoul</code>, <code>/weather/tokyo</code>처럼 URL은 같고 도시 id만 바뀌는 동적 경로를 사용함. 아직 API 수업 전이므로 상세 페이지도 현재 단계에서는 Mock Data를 사용함.</p>
+        <p><code>/weather/seoul</code>, <code>/weather/tokyo</code>처럼 URL은 같고 도시 id만 변경되는 동적 경로를 사용하였음. 당시 API 연동 전 단계였으므로 상세 페이지에는 Mock Data를 사용하였음.</p>
       </div>
 
       <div class="section">
         <h2>4. 본인이 추가한 View</h2>
-        <p>기본 요구 페이지 외에 <strong>과제 진행 기록 View</strong>와 <strong>유기견 후원 준비 View</strong>를 추가함. 외부 링크 대신 <code>/donate</code> 내부 경로를 사용하고, 서비스 소개는 실제 구현 기능을 사용자 흐름 중심으로 다시 구성함.</p>
+        <p>기본 요구 페이지 외에 <strong>과제 진행 기록 View</strong>와 <strong>유기견 후원 준비 View</strong>를 추가하였음. 외부 링크 대신 <code>/donate</code> 내부 경로를 사용하였고, 서비스 소개는 실제 구현 기능을 사용자 흐름 중심으로 다시 구성하였음.</p>
         <pre><code>{ path: '/about', component: () =&gt; import('@/views/WeatherAboutView.vue') },
 { path: '/donate', component: () =&gt; import('@/views/DonationView.vue') },
 { path: '/assignments/6', component: () =&gt; import('@/views/assignments/Assignment06View.vue') }</code></pre>
-        <p>오른쪽 위 메뉴에서는 Paweather 홈 바로 아래에 서비스 소개를 배치하고, 과제 1~6 페이지로 순서대로 이동할 수 있게 함.</p>
+        <p>오른쪽 위 메뉴에는 Paweather 홈 바로 아래에 서비스 소개를 배치하였고, 최종 과제 1~9 페이지를 순서대로 이동할 수 있도록 확장하였음.</p>
       </div>
 
       <div class="result">
         <strong>결과</strong>
-        <span>Lazy Loading과 Catch-all을 유지하면서 메인 / 상세 / 소개 / 후원 / 과제 기록을 URL 기반으로 탐색할 수 있는 구조를 완성함</span>
+        <span>Lazy Loading과 Catch-all을 유지하면서 메인 / 상세 / 소개 / 후원 / 과제 기록을 URL 기반으로 탐색하는 구조를 완성하였음</span>
       </div>
 
       <div class="page-links">

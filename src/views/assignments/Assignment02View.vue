@@ -8,22 +8,22 @@ import { RouterLink } from 'vue-router'
       <RouterLink to="/" class="back">← Paweather 홈</RouterLink>
       <span class="step">ASSIGNMENT 02 · p.127</span>
       <h1>Weather Composition</h1>
-      <p class="summary">Composition API의 반응형 상태와 파생값을 이용해 단순 날씨 조회를 위치·반려견·산책 조건이 함께 바뀌는 Paweather로 확장함.</p>
+      <p class="summary">Composition API의 반응형 상태와 파생값을 이용하여 단순 날씨 조회를 위치·반려견·산책 조건이 함께 변경되는 Paweather로 확장하였음.</p>
 
       <div class="section">
-        <h2>교재 요구사항</h2>
+        <h2>교재 요구사항 반영</h2>
         <ol>
-          <li><code>searchQuery</code>, <code>selectedCityInfo</code>, <code>weatherList</code>를 반응형 상태로 정의</li>
-          <li><code>computed</code>로 검색 결과 배열 <code>filteredWeatherList</code> 생성</li>
-          <li><code>watch</code>로 선택 도시 변경 감시</li>
-          <li><code>watchEffect</code>로 검색어 변경 자동 추적</li>
-          <li>본인만의 Reactive / Computed / Watcher 추가</li>
+          <li><code>searchQuery</code>, <code>selectedCityInfo</code>, <code>weatherList</code>를 반응형 상태로 정의하였음</li>
+          <li><code>computed</code>로 검색 결과 배열 <code>filteredWeatherList</code>를 생성하였음</li>
+          <li><code>watch</code>로 선택 도시 변경을 감시하였음</li>
+          <li><code>watchEffect</code>로 검색어 변경을 자동 추적하였음</li>
+          <li>Paweather에 필요한 Reactive / Computed / Watcher를 추가하였음</li>
         </ol>
       </div>
 
       <div class="section accent">
         <h2>컨셉을 확장한 이유</h2>
-        <p>날씨 수치만 보여주는 것보다 반려견 보호자가 <strong>“오늘 산책해도 되는지”</strong> 바로 판단할 수 있으면 더 실용적이라고 생각함. 그래서 반려견 이름·나이·체급을 저장하고, 선택 도시 날씨와 연결해 맞춤 산책 지수를 계산하도록 확장함.</p>
+        <p>날씨 수치만 보여주는 것보다 반려견 보호자가 <strong>“오늘 산책해도 되는지”</strong> 즉시 판단하게 하는 편이 더 실용적이라고 판단하였음. 이에 반려견 이름·나이·체급을 저장하고 선택 도시 날씨와 연결하여 맞춤 산책 지수를 계산하도록 확장하였음.</p>
       </div>
 
       <div class="section">
@@ -41,17 +41,17 @@ watch(selectedCityInfo, (newCity) => {
 watchEffect(() => {
   console.log(searchQuery.value, filteredWeatherList.value.length)
 })</code></pre>
-        <p>초기 과제에서는 배열 필터링과 로그 출력으로 동작을 확인했고, 최종 화면에서는 같은 원리를 실제 검색·프로필·대시보드 갱신에 적용함.</p>
+        <p>초기 과제에서는 배열 필터링과 로그 출력으로 동작을 확인하였고, 최종 화면에서는 같은 원리를 실제 검색·프로필·대시보드 갱신에 적용하였음.</p>
       </div>
 
       <div class="section accent">
         <h2>최종 구현의 Composition API</h2>
         <ul>
-          <li><code>ref</code>: 검색어·검색 후보·현재 위치·날씨·대기질·화장실·로딩 상태 관리</li>
-          <li><code>reactive</code>: 이름·나이·나이 단위·체급을 가진 프로필 입력 폼 관리</li>
-          <li><code>computed</code>: 현재/검색 위치 중 활성 위치 선택, 등록한 강아지별 산책 결과, 가장 보수적인 시간대 추천 생성</li>
-          <li><code>watch</code>: 검색어 입력 후 450ms 디바운스 검색, 살·개월과 체급에 따른 안내 문구 갱신</li>
-          <li><code>onMounted / onUnmounted</code>: 위치 추적과 기준시간 타이머를 시작하고 페이지를 떠날 때 정리</li>
+          <li><code>ref</code>: 검색어·검색 후보·현재 위치·날씨·대기질·화장실·로딩 상태를 관리하였음</li>
+          <li><code>reactive</code>: 이름·나이·나이 단위·체급을 가진 프로필 입력 폼을 관리하였음</li>
+          <li><code>computed</code>: 활성 위치, 강아지별 산책 결과, 가장 보수적인 시간대 추천을 생성하였음</li>
+          <li><code>watch</code>: 450ms 디바운스 검색과 살·개월 및 체급에 따른 안내 문구 갱신을 적용하였음</li>
+          <li><code>onMounted / onUnmounted</code>: 위치 추적과 기준시간 타이머를 시작하고 페이지 이탈 시 정리하였음</li>
         </ul>
         <pre><code>const savedDogWalkList = computed(() =&gt;
   profileStore.savedDogs.map((dog) =&gt; ({
@@ -63,7 +63,7 @@ watchEffect(() => {
 
       <div class="result">
         <strong>결과</strong>
-        <span>위치·언어·온도 단위·프로필·API 응답이 바뀌면 관련 computed와 화면이 자동으로 다시 계산되는 구조를 완성함</span>
+        <span>위치·언어·온도 단위·프로필·API 응답이 변경될 때 관련 computed와 화면이 자동으로 다시 계산되는 구조를 완성하였음</span>
       </div>
 
       <div class="page-links"><RouterLink to="/assignments/1">← 과제 1</RouterLink><RouterLink to="/assignments/3">과제 3 →</RouterLink></div>

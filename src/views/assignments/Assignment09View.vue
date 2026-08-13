@@ -16,17 +16,17 @@ const checks = [
     <section class="report-card">
       <RouterLink to="/" class="back">← Paweather 홈</RouterLink>
       <span class="step">ASSIGNMENT 09 · WEATHER DEPLOYMENT</span>
-      <h1>소스 품질 검사와 배포 준비</h1>
-      <p class="summary">최종 Paweather 소스를 ESLint로 점검하고 API 키를 저장소에서 분리한 뒤, Vite 프로덕션 빌드와 SPA·API 프록시를 포함한 호스팅 설정을 구성함.</p>
+      <h1>소스 품질 검사와 배포 설정</h1>
+      <p class="summary">최종 Paweather 소스를 ESLint로 점검하고 API 키를 저장소에서 분리한 뒤, Vite 프로덕션 빌드와 SPA·API 프록시를 포함한 호스팅 설정을 구성하였음.</p>
 
       <div class="section">
-        <h2>과제 요구사항</h2>
+        <h2>과제 요구사항 반영</h2>
         <ol>
-          <li>ESLint로 Vue와 JavaScript 소스를 검사해 제출 오류 제거</li>
-          <li>API Key를 환경변수로 관리하고 Git 업로드 대상에서 제외</li>
-          <li>프로젝트를 프로덕션 모드로 빌드해 정적 결과물 생성</li>
-          <li>정적 파일을 호스팅할 때 새로고침 라우팅과 외부 API 연결 유지</li>
-          <li>배포 후 홈과 각 Router 경로, 검색·지도 기능 확인</li>
+          <li>ESLint로 Vue와 JavaScript 소스를 검사하여 제출 오류를 제거하였음</li>
+          <li>API Key를 환경변수로 관리하고 Git 업로드 대상에서 제외하였음</li>
+          <li>프로젝트를 프로덕션 모드로 빌드하여 정적 결과물을 생성하였음</li>
+          <li>Vercel 설정에 새로고침 라우팅과 외부 API 연결 규칙을 반영하였음</li>
+          <li>홈과 각 Router 경로, 검색·지도 기능의 배포 검증 기준을 정리하였음</li>
         </ol>
       </div>
 
@@ -42,7 +42,7 @@ const checks = [
 
       <div class="section">
         <h2>ESLint 품질 관리</h2>
-        <p>ESLint Flat Config와 <code>eslint-plugin-vue</code>를 적용함. 일반 JavaScript 권장 규칙과 Vue 필수 규칙을 함께 검사하며, 경고도 제출 실패로 처리하도록 <code>--max-warnings=0</code>을 사용함.</p>
+        <p>ESLint Flat Config와 <code>eslint-plugin-vue</code>를 적용하였음. 일반 JavaScript 권장 규칙과 Vue 필수 규칙을 함께 검사하였고, 경고도 제출 실패로 처리하도록 <code>--max-warnings=0</code>을 사용하였음.</p>
         <pre><code>npm run lint       # Vue·JavaScript 문법 검사
 npm run lint:fix   # 자동 수정 가능한 항목 정리
 npm run check      # lint 통과 후 production build</code></pre>
@@ -50,7 +50,7 @@ npm run check      # lint 통과 후 production build</code></pre>
 
       <div class="section accent">
         <h2>환경변수와 API Key 보호</h2>
-        <p>OpenWeather와 Kakao REST API Key는 <code>import.meta.env</code>로만 읽으며 실제 값이 있는 <code>.env</code>는 <code>.gitignore</code>에서 제외함. 저장소에는 변수 이름만 제공하는 <code>.env.example</code>을 포함함.</p>
+        <p>OpenWeather와 Kakao REST API Key는 <code>import.meta.env</code>로만 읽도록 구성하였고, 실제 값이 있는 <code>.env</code>는 <code>.gitignore</code>에서 제외하였음. 저장소에는 변수 이름만 제공하는 <code>.env.example</code>을 포함하였음.</p>
         <pre><code>VITE_OPENWEATHER_API_KEY=your_openweather_api_key
 VITE_KAKAO_REST_API_KEY=your_kakao_rest_api_key</code></pre>
       </div>
@@ -60,29 +60,29 @@ VITE_KAKAO_REST_API_KEY=your_kakao_rest_api_key</code></pre>
         <pre><code>npm install
 npm run check
 npm run preview</code></pre>
-        <p><code>npm run build</code> 결과는 <code>dist/</code>에 생성됨. <code>vercel.json</code>에는 Vue Router 새로고침을 위한 SPA fallback, Kakao Local 프록시, 정적 에셋 캐시와 기본 보안 헤더를 설정함.</p>
+        <p><code>npm run build</code> 결과가 <code>dist/</code>에 생성되는 것을 확인하였음. <code>vercel.json</code>에는 Vue Router 새로고침을 위한 SPA fallback, Kakao Local 프록시, 정적 에셋 캐시와 기본 보안 헤더를 설정하였음.</p>
       </div>
 
       <div class="section accent">
         <h2>Vercel 환경변수</h2>
-        <p>배포 프로젝트의 Settings → Environment Variables에 두 API Key를 등록한 다음 다시 배포해야 함. Vite의 <code>VITE_</code> 변수는 빌드 시점에 포함되므로 키 변경 후 재배포가 필요함.</p>
+        <p>배포 프로젝트의 Settings → Environment Variables에 두 API Key를 등록하는 절차를 문서화하였음. Vite의 <code>VITE_</code> 변수가 빌드 시점에 포함되는 구조를 확인하였고, 키 변경 시 재배포하도록 절차를 정리하였음.</p>
       </div>
 
       <div class="section">
-        <h2>배포 후 확인 항목</h2>
+        <h2>배포 검증 기준</h2>
         <ul>
-          <li>홈과 <code>/about</code>, <code>/donate</code>, <code>/assignments/9</code> 직접 접속</li>
-          <li>건물명·도로명·지번 검색과 한국어·영어 결과</li>
-          <li>OpenWeather 날씨·대기질 응답과 오류 상태</li>
-          <li>공중화장실 실제 지도와 카카오맵 길찾기</li>
-          <li>새로고침 후 강아지 프로필·언어·온도 단위 유지</li>
-          <li>모바일 레이아웃과 위치 권한 허용·거부 상태</li>
+          <li>홈과 <code>/about</code>, <code>/donate</code>, <code>/assignments/9</code> 직접 접속을 검증 항목으로 정리하였음</li>
+          <li>건물명·도로명·지번 검색과 한국어·영어 결과를 검증 항목으로 정리하였음</li>
+          <li>OpenWeather 날씨·대기질 응답과 오류 상태를 검증 항목으로 정리하였음</li>
+          <li>공중화장실 실제 지도와 카카오맵 길찾기를 검증 항목으로 정리하였음</li>
+          <li>새로고침 후 강아지 프로필·언어·온도 단위 유지를 검증 항목으로 정리하였음</li>
+          <li>모바일 레이아웃과 위치 권한 허용·거부 상태를 검증 항목으로 정리하였음</li>
         </ul>
       </div>
 
       <div class="result">
         <strong>로컬 검증 결과</strong>
-        <span>ESLint 오류·경고 0개, Vite production build 성공, SPA와 API 프록시를 포함한 Vercel 배포 설정 완료.</span>
+        <span>ESLint 오류·경고 0개와 Vite production build 성공을 확인하였고, SPA와 API 프록시를 포함한 Vercel 배포 설정을 완료하였음.</span>
       </div>
 
       <div class="page-links">

@@ -8,19 +8,19 @@ import { RouterLink } from 'vue-router'
       <RouterLink to="/" class="back">← Paweather 홈</RouterLink>
       <span class="step">ASSIGNMENT 03 · p.160</span>
       <h1>Weather Component</h1>
-      <p class="summary">커진 화면을 입력·설정·대시보드·지도 역할로 분리하고 Props Down / Events Up과 Slot을 적용함.</p>
+      <p class="summary">확장된 화면을 입력·설정·대시보드·지도 역할로 분리하고 Props Down / Events Up과 Slot을 적용하였음.</p>
 
       <div class="section">
         <h2>교재 요구사항에 맞춘 분리</h2>
         <div class="component-list">
-          <div><strong>WeatherParent.vue</strong><span>모든 반응형 데이터와 주요 함수 유지</span></div>
-          <div><strong>BaseDashboardCard.vue</strong><span>공통 카드 디자인 + slot</span></div>
-          <div><strong>SearchBar.vue</strong><span>props로 검색값 수신, emit으로 검색어/국가 변경 전달</span></div>
-          <div><strong>WeatherCard.vue</strong><span>props로 도시 객체 수신, select/detail 이벤트 emit</span></div>
-          <div><strong>DogProfileForm.vue</strong><span>본인 Mockup의 추가 Component</span></div>
-          <div><strong>CurrentLocationDashboard.vue</strong><span>현재/검색 위치의 날씨·대기질·시간대 추천·화장실 영역</span></div>
-          <div><strong>RestroomLocationMap.vue</strong><span>Leaflet 지도 생성과 마커·직선 방향 표시, 생명주기 정리</span></div>
-          <div><strong>UnitToggler.vue</strong><span>Pinia 설정을 사용하는 공통 섭씨·화씨 전환 버튼</span></div>
+          <div><strong>WeatherParent.vue</strong><span>반응형 데이터와 주요 함수를 관리하도록 구성하였음</span></div>
+          <div><strong>BaseDashboardCard.vue</strong><span>공통 카드 디자인과 slot을 담당하도록 구성하였음</span></div>
+          <div><strong>SearchBar.vue</strong><span>props로 검색값을 받고 emit으로 검색 변경을 전달하도록 구성하였음</span></div>
+          <div><strong>WeatherCard.vue</strong><span>props로 도시 객체를 받고 select/detail 이벤트를 emit하도록 구성하였음</span></div>
+          <div><strong>DogProfileForm.vue</strong><span>Paweather 전용 프로필 Component로 추가하였음</span></div>
+          <div><strong>CurrentLocationDashboard.vue</strong><span>날씨·대기질·시간대 추천·화장실 영역으로 분리하였음</span></div>
+          <div><strong>RestroomLocationMap.vue</strong><span>Leaflet 지도와 마커 생명주기를 담당하도록 분리하였음</span></div>
+          <div><strong>UnitToggler.vue</strong><span>Pinia 기반 섭씨·화씨 전환 버튼으로 구성하였음</span></div>
         </div>
       </div>
 
@@ -31,17 +31,17 @@ import { RouterLink } from 'vue-router'
   @select="selectCity"
   @detail="goToWeatherDetail"
 /&gt;</code></pre>
-        <p>부모가 날씨 데이터를 props로 내려주고, 자식에서 발생한 카드 선택·상세보기 동작은 emit으로 다시 부모에게 전달하는 구조를 적용함.</p>
+        <p>부모가 날씨 데이터를 props로 전달하고, 자식에서 발생한 카드 선택·상세보기 동작은 emit으로 다시 부모에게 전달하는 구조를 적용하였음.</p>
       </div>
 
       <div class="section">
         <h2>Slot 적용</h2>
-        <p><code>BaseDashboardCard.vue</code> 안에 <code>&lt;slot /&gt;</code>을 두고 검색 영역과 날씨 영역의 내용을 부모에서 주입함. 공통 외곽 디자인은 하나의 Component로 관리함.</p>
+        <p><code>BaseDashboardCard.vue</code> 안에 <code>&lt;slot /&gt;</code>을 두고 검색 영역의 내용을 부모에서 주입하였음. 공통 외곽 디자인은 하나의 Component에서 관리하였음.</p>
       </div>
 
       <div class="section">
         <h2>추가 Component</h2>
-        <p>반려견 프로필은 <code>DogProfileForm.vue</code>로 분리해 입력값을 props로 받고 변경·저장 동작을 emit함. 위치 대시보드는 <code>CurrentLocationDashboard.vue</code>, 실제 주변 지도는 <code>RestroomLocationMap.vue</code>로 나눠 지도 인스턴스가 부모의 날씨 계산과 섞이지 않게 구성함.</p>
+        <p>반려견 프로필은 <code>DogProfileForm.vue</code>로 분리하여 입력값을 props로 받고 변경·저장 동작을 emit하였음. 위치 대시보드는 <code>CurrentLocationDashboard.vue</code>, 실제 주변 지도는 <code>RestroomLocationMap.vue</code>로 나누어 지도 인스턴스가 부모의 날씨 계산과 섞이지 않도록 구성하였음.</p>
       </div>
 
       <div class="section accent">
@@ -55,12 +55,12 @@ import { RouterLink } from 'vue-router'
        ├─ props: 위치·날씨·대기질·강아지별 결과
        └─ RestroomLocationMap
             └─ props: 출발지·화장실·거리·도보 시간</code></pre>
-        <p>시간대 카드도 현재 카드와 같은 규칙을 쓰도록 부모의 <code>getWalkLevel</code> 함수를 prop으로 전달해 판정 모순을 제거함.</p>
+        <p>시간대 카드도 현재 카드와 같은 규칙을 사용하도록 부모의 <code>getWalkLevel</code> 함수를 prop으로 전달하여 판정 모순을 제거하였음.</p>
       </div>
 
       <div class="result">
         <strong>결과</strong>
-        <span>검색·프로필·위치 대시보드·지도·단위 설정을 역할별 Component로 분리하고 데이터 흐름을 명확하게 유지함</span>
+        <span>검색·프로필·위치 대시보드·지도·단위 설정을 역할별 Component로 분리하고 데이터 흐름을 명확하게 정리하였음</span>
       </div>
 
       <div class="page-links">
