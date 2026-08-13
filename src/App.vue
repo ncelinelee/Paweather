@@ -35,5 +35,7 @@ const closeMenu = () => {
 <style scoped>
 .submission-nav { position: fixed; top: 24px; right: 28px; z-index: 200; }
 .menu-button { width: 40px; height: 40px; border: 1px solid #dfe4df; border-radius: 11px; background: rgba(255,255,255,.95); color: #414640; font-size: 22px; cursor: pointer; box-shadow: 0 6px 18px rgba(55,65,58,.08); }
-@media(max-width:720px){ .submission-nav{top:16px; right:14px} }
+@media (max-width:720px) {
+  .submission-nav { top: 16px; right: 14px; }
+}
 </style>

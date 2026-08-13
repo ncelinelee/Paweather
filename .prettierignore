@@ -1,0 +1,12 @@
+# Keep Vue style rules in the project's one-selector-per-line format.
+src/**/*.vue
+
+# Dependencies and generated output
+node_modules/
+dist/
+coverage/
+
+# Local environment files
+.env
+.env.*
+!.env.example

@@ -98,5 +98,29 @@ useLocalStorage('paweather-dog-profiles', [])
 </template>
 
 <style scoped>
-.report-page{min-height:100vh;padding:88px 20px 50px;background:linear-gradient(180deg,#f4f9f6,#fffdfa);font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;color:#333a34}.report-card{width:min(920px,100%);margin:auto;padding:34px;border:1px solid #e2e7e2;border-radius:26px;background:#fff;box-sizing:border-box}.back,.page-links a{color:#4d816a;text-decoration:none;font-size:11px;font-weight:800}.step{display:block;margin-top:26px;color:#68a188;font-size:9px;font-weight:900;letter-spacing:1.4px}h1{margin:7px 0 10px;font-size:40px}.summary{color:#727972;line-height:1.8;font-size:12px}.section{margin-top:24px;padding:20px;border:1px solid #e8ebe7;border-radius:16px}.section.accent{background:#f7fbf8}.section h2{margin:0 0 12px;font-size:16px}.section p,.section li{color:#666e67;font-size:11px;line-height:1.8}.section li+li{margin-top:5px}code{padding:2px 5px;border-radius:5px;background:#f2f4f2}pre{overflow:auto;margin:14px 0;padding:15px;border-radius:12px;background:#282d29;color:#eaf3ed;font-size:10px;line-height:1.7}pre code{padding:0;background:transparent}.refinement-table{--el-table-header-bg-color:#edf7f1;--el-table-row-hover-bg-color:#f1f8f4;font-size:11px}.result{margin-top:24px;padding:18px;border-radius:15px;background:#eef8f1}.result strong,.result span{display:block}.result strong{color:#448166}.result span{margin-top:5px;color:#52675b;font-size:11px;line-height:1.7}.page-links{margin-top:22px;display:flex;justify-content:space-between}@media(max-width:650px){.report-card{padding:24px}h1{font-size:32px}.section{padding:16px}}
+.report-page { min-height: 100vh; padding: 88px 20px 50px; background: linear-gradient(180deg,#f4f9f6,#fffdfa); font-family: -apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif; color: #333a34; }
+.report-card { width: min(920px,100%); margin: auto; padding: 34px; border: 1px solid #e2e7e2; border-radius: 26px; background: #fff; box-sizing: border-box; }
+.back,.page-links a { color: #4d816a; text-decoration: none; font-size: 11px; font-weight: 800; }
+.step { display: block; margin-top: 26px; color: #68a188; font-size: 9px; font-weight: 900; letter-spacing: 1.4px; }
+h1 { margin: 7px 0 10px; font-size: 40px; }
+.summary { color: #727972; line-height: 1.8; font-size: 12px; }
+.section { margin-top: 24px; padding: 20px; border: 1px solid #e8ebe7; border-radius: 16px; }
+.section.accent { background: #f7fbf8; }
+.section h2 { margin: 0 0 12px; font-size: 16px; }
+.section p,.section li { color: #666e67; font-size: 11px; line-height: 1.8; }
+.section li+li { margin-top: 5px; }
+code { padding: 2px 5px; border-radius: 5px; background: #f2f4f2; }
+pre { overflow: auto; margin: 14px 0; padding: 15px; border-radius: 12px; background: #282d29; color: #eaf3ed; font-size: 10px; line-height: 1.7; }
+pre code { padding: 0; background: transparent; }
+.refinement-table { --el-table-header-bg-color: #edf7f1; --el-table-row-hover-bg-color: #f1f8f4; font-size: 11px; }
+.result { margin-top: 24px; padding: 18px; border-radius: 15px; background: #eef8f1; }
+.result strong,.result span { display: block; }
+.result strong { color: #448166; }
+.result span { margin-top: 5px; color: #52675b; font-size: 11px; line-height: 1.7; }
+.page-links { margin-top: 22px; display: flex; justify-content: space-between; }
+@media (max-width:650px) {
+  .report-card { padding: 24px; }
+  h1 { font-size: 32px; }
+  .section { padding: 16px; }
+}
 </style>

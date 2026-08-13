@@ -100,5 +100,33 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.detail-page{min-height:100vh;padding:80px 20px 40px;background:linear-gradient(180deg,#fffdfa,#f3f8f5);color:#303630;font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif}.detail-card{width:min(820px,100%);margin:0 auto;padding:32px;border:1px solid #e4e7e1;border-radius:26px;background:#fff;box-shadow:0 16px 40px rgba(60,75,66,.08)}.back-button{border:1px solid #dce1dc;border-radius:10px;background:#fff;color:#48755f;padding:9px 12px;font-weight:800;cursor:pointer}.detail-title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}.eyebrow{display:block;margin-top:26px;color:#6d9d87;font-size:9px;font-weight:900;letter-spacing:1.4px}h1{margin:7px 0 2px;font-size:38px}.country{margin:0;color:#8c918c}.english-location{margin:2px 0;color:#4d806a;font-size:11px;font-weight:800}.unit-chip{padding:7px 10px;border-radius:999px;background:#eef7f2;color:#4b7f69;font-size:10px;font-weight:900}.main-weather{margin:26px 0;padding:22px;display:flex;align-items:center;gap:18px;border-radius:18px;background:#f5faf7}.main-weather>.pa-icon{color:#4d9d7d;font-size:56px}.main-weather strong{font-size:48px}.main-weather p{margin:5px 0 0;color:#727872}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metrics>div{padding:15px;border:1px solid #e8eae5;border-radius:13px}.metrics small,.metrics strong,.metrics span{display:block}.metrics small{color:#929791;font-size:10px}.metrics strong{margin-top:5px;font-size:14px}.metrics span{margin-top:5px;color:#788078;font-size:9px}.air-metric{grid-column:1/-1;background:#f7fbf8}.learning-note{margin-top:24px;padding:17px;border-radius:15px;background:#eef8f1;color:#52675b}.learning-note p{margin:7px 0 0;font-size:11px;line-height:1.7}.empty{text-align:center}@media(max-width:650px){.detail-card{padding:22px}.metrics{grid-template-columns:1fr 1fr}.main-weather strong{font-size:38px}.detail-title-row{align-items:flex-start;flex-direction:column}}
+.detail-page { min-height: 100vh; padding: 80px 20px 40px; background: linear-gradient(180deg,#fffdfa,#f3f8f5); color: #303630; font-family: -apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif; }
+.detail-card { width: min(820px,100%); margin: 0 auto; padding: 32px; border: 1px solid #e4e7e1; border-radius: 26px; background: #fff; box-shadow: 0 16px 40px rgba(60,75,66,.08); }
+.back-button { border: 1px solid #dce1dc; border-radius: 10px; background: #fff; color: #48755f; padding: 9px 12px; font-weight: 800; cursor: pointer; }
+.detail-title-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.eyebrow { display: block; margin-top: 26px; color: #6d9d87; font-size: 9px; font-weight: 900; letter-spacing: 1.4px; }
+h1 { margin: 7px 0 2px; font-size: 38px; }
+.country { margin: 0; color: #8c918c; }
+.english-location { margin: 2px 0; color: #4d806a; font-size: 11px; font-weight: 800; }
+.unit-chip { padding: 7px 10px; border-radius: 999px; background: #eef7f2; color: #4b7f69; font-size: 10px; font-weight: 900; }
+.main-weather { margin: 26px 0; padding: 22px; display: flex; align-items: center; gap: 18px; border-radius: 18px; background: #f5faf7; }
+.main-weather>.pa-icon { color: #4d9d7d; font-size: 56px; }
+.main-weather strong { font-size: 48px; }
+.main-weather p { margin: 5px 0 0; color: #727872; }
+.metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+.metrics>div { padding: 15px; border: 1px solid #e8eae5; border-radius: 13px; }
+.metrics small,.metrics strong,.metrics span { display: block; }
+.metrics small { color: #929791; font-size: 10px; }
+.metrics strong { margin-top: 5px; font-size: 14px; }
+.metrics span { margin-top: 5px; color: #788078; font-size: 9px; }
+.air-metric { grid-column: 1/-1; background: #f7fbf8; }
+.learning-note { margin-top: 24px; padding: 17px; border-radius: 15px; background: #eef8f1; color: #52675b; }
+.learning-note p { margin: 7px 0 0; font-size: 11px; line-height: 1.7; }
+.empty { text-align: center; }
+@media (max-width:650px) {
+  .detail-card { padding: 22px; }
+  .metrics { grid-template-columns: 1fr 1fr; }
+  .main-weather strong { font-size: 38px; }
+  .detail-title-row { align-items: flex-start; flex-direction: column; }
+}
 </style>

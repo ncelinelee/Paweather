@@ -156,5 +156,17 @@ onBeforeUnmount(destroyMap)
 </template>
 
 <style scoped>
-.real-location-map{width:100%;height:100%;max-width:100%;min-width:0;display:flex;flex-direction:column;overflow:hidden;border:1px solid #dce7df;border-radius:13px;background:#eef4ef}.map-canvas{width:100%;max-width:100%;min-height:174px;flex:1 1 174px;background:#eef4ef}.map-caption{position:relative;z-index:500;min-width:0;display:flex;align-items:center;justify-content:space-between;flex:0 0 auto;gap:8px;padding:8px 10px;border-top:1px solid #dce7df;background:#fff}.map-caption span{min-width:0;overflow:hidden;color:#7f8881;font-size:7px;text-overflow:ellipsis;white-space:nowrap}.map-caption strong{flex:0 0 auto;color:#36755a;font-size:8px;white-space:nowrap}:deep(.leaflet-control-zoom a){color:#426b58}:deep(.leaflet-control-attribution){font-size:6px}:deep(.location-map-tooltip){padding:4px 7px;border:0;border-radius:7px;background:#fff;box-shadow:0 2px 9px rgba(47,69,57,.2);color:#405048;font-size:8px;font-weight:900}:deep(.location-map-tooltip.destination){color:#287252}:deep(.leaflet-tooltip-bottom::before),:deep(.leaflet-tooltip-top::before){display:none}@media(max-width:720px){.map-canvas{min-height:210px;flex-basis:210px}}
+.real-location-map { width: 100%; height: 100%; max-width: 100%; min-width: 0; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #dce7df; border-radius: 13px; background: #eef4ef; }
+.map-canvas { width: 100%; max-width: 100%; min-height: 174px; flex: 1 1 174px; background: #eef4ef; }
+.map-caption { position: relative; z-index: 500; min-width: 0; display: flex; align-items: center; justify-content: space-between; flex: 0 0 auto; gap: 8px; padding: 8px 10px; border-top: 1px solid #dce7df; background: #fff; }
+.map-caption span { min-width: 0; overflow: hidden; color: #7f8881; font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+.map-caption strong { flex: 0 0 auto; color: #36755a; font-size: 8px; white-space: nowrap; }
+:deep(.leaflet-control-zoom a) { color: #426b58; }
+:deep(.leaflet-control-attribution) { font-size: 6px; }
+:deep(.location-map-tooltip) { padding: 4px 7px; border: 0; border-radius: 7px; background: #fff; box-shadow: 0 2px 9px rgba(47,69,57,.2); color: #405048; font-size: 8px; font-weight: 900; }
+:deep(.location-map-tooltip.destination) { color: #287252; }
+:deep(.leaflet-tooltip-bottom::before),:deep(.leaflet-tooltip-top::before) { display: none; }
+@media (max-width:720px) {
+  .map-canvas { min-height: 210px; flex-basis: 210px; }
+}
 </style>

@@ -82,5 +82,5 @@ defineProps({
 </template>
 
 <style scoped>
-.pa-icon { width:1em; height:1em; display:inline-block; flex:0 0 auto; overflow:visible; vertical-align:-.13em; }
+.pa-icon { width: 1em; height: 1em; display: inline-block; flex: 0 0 auto; overflow: visible; vertical-align: -.13em; }
 </style>

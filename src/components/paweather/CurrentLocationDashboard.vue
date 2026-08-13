@@ -366,18 +366,100 @@ const kakaoWalkUrl = computed(() => buildKakaoWalkUrl(props.currentLocation, pro
 </template>
 
 <style scoped>
-.location-dashboard{background:#fff;border:1px solid #e3e8e2;border-radius:22px;padding:22px;box-shadow:0 10px 26px rgba(88,78,60,.045)}
-.dashboard-heading,.location-title-row,.aqi-row,.restroom-meta{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.heading-status{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}.basis-time{color:#8a918b;font-size:9px;font-weight:700;white-space:nowrap}
-.eyebrow,.card-label{display:block;color:#799084;font-size:9px;font-weight:900;letter-spacing:1.1px}.dashboard-heading h2{margin:5px 0 0;color:#343a35;font-size:20px}
-.live-badge{display:inline-flex;align-items:center;gap:5px;color:#3f8468;background:#edf7f1;border-radius:999px;padding:6px 9px;font-size:9px;font-weight:900}.live-badge::before{width:6px;height:6px;border-radius:50%;background:currentColor;content:""}.live-badge.searched{color:#526f91;background:#eef4fb}.status-box{margin-top:18px;padding:18px;border-radius:15px;background:#f7f9f7;color:#68736b;font-size:11px}
-.dashboard-skeleton{margin-top:20px;padding:18px;border-radius:15px;background:#f8faf8}.dashboard-empty{margin-top:14px;padding:18px 0}:deep(.dashboard-empty .el-empty__description p){color:#68736b;font-size:11px}
-.location-title-row{margin-top:18px}.location-title-row strong{display:block;color:#374039;font-size:16px}.location-title-row small{display:block;margin-top:4px;color:#8a918b;font-size:9px}.location-title-row .location-english{display:block;margin-top:3px;color:#4d806a;font-size:10px;font-weight:800}
-.live-grid{display:grid;grid-template-columns:minmax(210px,.9fr) minmax(150px,.55fr) minmax(340px,1.55fr);gap:12px;margin-top:15px}.info-card{min-width:0;padding:16px;border:1px solid #e8e7e1;border-radius:16px;background:#fff}.main-value{margin-top:8px;color:#2f3631;font-size:27px;font-weight:900}.info-card p{margin:6px 0 0;color:#777f78;font-size:9px;line-height:1.55}
-.sub-values{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}.sub-values span,.restroom-meta span{padding:5px 7px;border-radius:999px;background:#f3f6f3;color:#5f6c64;font-size:8px}.aqi-badge{border-radius:999px;padding:5px 8px;font-size:9px;font-weight:900}.aqi-good{background:#eaf8f0;color:#177245}.aqi-fair{background:#edf5ff;color:#2563a9}.aqi-caution{background:#fff6dc;color:#986a00}.aqi-bad{background:#fff0f0;color:#b33a3a}
-.air-card{padding:14px}.air-card .main-value{font-size:21px}.air-card .aqi-row{align-items:flex-end}.air-card .sub-values{gap:4px;margin-top:9px}.air-card .sub-values span{padding:4px 6px}
-.dog-current-walk-list{max-height:118px;margin-top:11px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;scrollbar-color:#cedbd3 transparent;scrollbar-width:thin}.dog-current-walk{padding:9px 10px;display:flex;justify-content:space-between;flex:0 0 auto;gap:8px;border-radius:11px}.dog-current-walk small{min-width:0;overflow:hidden;font-size:8px;text-overflow:ellipsis;white-space:nowrap}.dog-current-walk strong{flex:0 0 auto;font-size:10px}.walk-safe{color:#43825f;background:#eef8f1}.walk-light{color:#9b6b21;background:#fff4d8}.walk-caution{color:#bc653f;background:#fff0e8}.walk-ban{color:#c64f4b;background:#ffeded}
-.walk-time-recommendation{min-width:0;margin-top:13px;padding-top:12px;border-top:1px solid #edf0ec}.walk-time-heading{display:flex;align-items:center;justify-content:space-between;gap:6px}.walk-time-heading>strong{color:#465149;font-size:9px}.walk-time-heading>small{color:#99a099;font-size:7px}.walk-time-list{display:flex;gap:6px;margin-top:8px;padding:0 0 5px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-color:#cddbd3 transparent;scrollbar-width:thin}.walk-time-list::-webkit-scrollbar{height:4px}.walk-time-list::-webkit-scrollbar-thumb{border-radius:999px;background:#cddbd3}.walk-time-slot{min-width:78px;flex:0 0 78px;padding:8px 5px;border-radius:9px;background:#f4f6f3;text-align:center;scroll-snap-align:start}.walk-time-slot>strong,.walk-time-slot>span,.walk-time-slot>small{display:block}.walk-time-slot>strong{color:#3f4b43;font-size:8px}.walk-time-slot>span{overflow:hidden;margin-top:3px;color:#778079;font-size:6px;white-space:nowrap}.walk-time-slot>small{margin-top:4px;font-size:7px;font-weight:900}.walk-time-slot.recommended{background:#eaf7ef}.walk-time-slot.recommended>small{color:#24734f}.walk-time-slot.possible{background:#eef4fb}.walk-time-slot.possible>small{color:#3972a1}.walk-time-slot.caution{background:#fff6df}.walk-time-slot.caution>small{color:#9c6d16}.walk-time-slot.avoid{background:#ffeded}.walk-time-slot.avoid>small{color:#b24c4c}.walk-time-recommendation>p{margin-top:8px}
-.restroom-title{display:flex;align-items:center;gap:7px}.restroom-icon{font-size:20px}.restroom-card{overflow:hidden}.restroom-content{width:100%;max-width:100%;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:14px;align-items:stretch;margin-top:9px}.restroom-content>*{min-width:0;max-width:100%}.restroom-details{min-width:0}.restroom-card h3{max-width:100%;margin:0;overflow:hidden;color:#394039;font-size:clamp(10px,.8vw,13px);line-height:1.35;letter-spacing:-.45px;text-overflow:ellipsis;white-space:nowrap}.restroom-english,.restroom-address-english{display:block;margin-top:4px;color:#4d806a;font-size:8px;font-weight:800;line-height:1.35}.restroom-address-english{color:#7d8b82;font-weight:700}.restroom-meta{justify-content:flex-start;flex-wrap:wrap;margin-top:10px}.restroom-meta strong{color:#3f755c;font-size:9px}.restroom-meta .walk-time-badge{background:#eaf6ef;color:#2f7859;font-weight:900}.restroom-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:12px}.direction-button,.place-button{display:inline-block;padding:9px 11px;border-radius:10px;font-size:9px;font-weight:900;text-decoration:none}.direction-button{background:#56a486;color:#fff}.place-button{background:#f3f6f3;color:#5f6c64}.empty-restroom{padding-top:8px}.data-note{margin:10px 0 0;color:#949a95;font-size:8px}
-@media(max-width:1100px){.live-grid{grid-template-columns:minmax(210px,1.2fr) minmax(150px,.8fr)}.restroom-card{grid-column:1/-1}.restroom-content{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}}@media(max-width:720px){.location-dashboard{padding:16px}.dashboard-heading{align-items:flex-start}.heading-status{gap:6px}.basis-time{width:100%;text-align:right}.live-grid{grid-template-columns:1fr}.restroom-card{grid-column:auto}.restroom-content{grid-template-columns:1fr}.restroom-card h3{font-size:13px}.air-card .aqi-row{justify-content:flex-start}}
+.location-dashboard { background: #fff; border: 1px solid #e3e8e2; border-radius: 22px; padding: 22px; box-shadow: 0 10px 26px rgba(88,78,60,.045); }
+.dashboard-heading,.location-title-row,.aqi-row,.restroom-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.heading-status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+.basis-time { color: #8a918b; font-size: 9px; font-weight: 700; white-space: nowrap; }
+.eyebrow,.card-label { display: block; color: #799084; font-size: 9px; font-weight: 900; letter-spacing: 1.1px; }
+.dashboard-heading h2 { margin: 5px 0 0; color: #343a35; font-size: 20px; }
+.live-badge { display: inline-flex; align-items: center; gap: 5px; color: #3f8468; background: #edf7f1; border-radius: 999px; padding: 6px 9px; font-size: 9px; font-weight: 900; }
+.live-badge::before { width: 6px; height: 6px; border-radius: 50%; background: currentColor; content: ""; }
+.live-badge.searched { color: #526f91; background: #eef4fb; }
+.status-box { margin-top: 18px; padding: 18px; border-radius: 15px; background: #f7f9f7; color: #68736b; font-size: 11px; }
+.dashboard-skeleton { margin-top: 20px; padding: 18px; border-radius: 15px; background: #f8faf8; }
+.dashboard-empty { margin-top: 14px; padding: 18px 0; }
+:deep(.dashboard-empty .el-empty__description p) { color: #68736b; font-size: 11px; }
+.location-title-row { margin-top: 18px; }
+.location-title-row strong { display: block; color: #374039; font-size: 16px; }
+.location-title-row small { display: block; margin-top: 4px; color: #8a918b; font-size: 9px; }
+.location-title-row .location-english { display: block; margin-top: 3px; color: #4d806a; font-size: 10px; font-weight: 800; }
+.live-grid { display: grid; grid-template-columns: minmax(210px,.9fr) minmax(150px,.55fr) minmax(340px,1.55fr); gap: 12px; margin-top: 15px; }
+.info-card { min-width: 0; padding: 16px; border: 1px solid #e8e7e1; border-radius: 16px; background: #fff; }
+.main-value { margin-top: 8px; color: #2f3631; font-size: 27px; font-weight: 900; }
+.info-card p { margin: 6px 0 0; color: #777f78; font-size: 9px; line-height: 1.55; }
+.sub-values { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
+.sub-values span,.restroom-meta span { padding: 5px 7px; border-radius: 999px; background: #f3f6f3; color: #5f6c64; font-size: 8px; }
+.aqi-badge { border-radius: 999px; padding: 5px 8px; font-size: 9px; font-weight: 900; }
+.aqi-good { background: #eaf8f0; color: #177245; }
+.aqi-fair { background: #edf5ff; color: #2563a9; }
+.aqi-caution { background: #fff6dc; color: #986a00; }
+.aqi-bad { background: #fff0f0; color: #b33a3a; }
+.air-card { padding: 14px; }
+.air-card .main-value { font-size: 21px; }
+.air-card .aqi-row { align-items: flex-end; }
+.air-card .sub-values { gap: 4px; margin-top: 9px; }
+.air-card .sub-values span { padding: 4px 6px; }
+.dog-current-walk-list { max-height: 118px; margin-top: 11px; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; scrollbar-color: #cedbd3 transparent; scrollbar-width: thin; }
+.dog-current-walk { padding: 9px 10px; display: flex; justify-content: space-between; flex: 0 0 auto; gap: 8px; border-radius: 11px; }
+.dog-current-walk small { min-width: 0; overflow: hidden; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+.dog-current-walk strong { flex: 0 0 auto; font-size: 10px; }
+.walk-safe { color: #43825f; background: #eef8f1; }
+.walk-light { color: #9b6b21; background: #fff4d8; }
+.walk-caution { color: #bc653f; background: #fff0e8; }
+.walk-ban { color: #c64f4b; background: #ffeded; }
+.walk-time-recommendation { min-width: 0; margin-top: 13px; padding-top: 12px; border-top: 1px solid #edf0ec; }
+.walk-time-heading { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.walk-time-heading>strong { color: #465149; font-size: 9px; }
+.walk-time-heading>small { color: #99a099; font-size: 7px; }
+.walk-time-list { display: flex; gap: 6px; margin-top: 8px; padding: 0 0 5px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-color: #cddbd3 transparent; scrollbar-width: thin; }
+.walk-time-list::-webkit-scrollbar { height: 4px; }
+.walk-time-list::-webkit-scrollbar-thumb { border-radius: 999px; background: #cddbd3; }
+.walk-time-slot { min-width: 78px; flex: 0 0 78px; padding: 8px 5px; border-radius: 9px; background: #f4f6f3; text-align: center; scroll-snap-align: start; }
+.walk-time-slot>strong,.walk-time-slot>span,.walk-time-slot>small { display: block; }
+.walk-time-slot>strong { color: #3f4b43; font-size: 8px; }
+.walk-time-slot>span { overflow: hidden; margin-top: 3px; color: #778079; font-size: 6px; white-space: nowrap; }
+.walk-time-slot>small { margin-top: 4px; font-size: 7px; font-weight: 900; }
+.walk-time-slot.recommended { background: #eaf7ef; }
+.walk-time-slot.recommended>small { color: #24734f; }
+.walk-time-slot.possible { background: #eef4fb; }
+.walk-time-slot.possible>small { color: #3972a1; }
+.walk-time-slot.caution { background: #fff6df; }
+.walk-time-slot.caution>small { color: #9c6d16; }
+.walk-time-slot.avoid { background: #ffeded; }
+.walk-time-slot.avoid>small { color: #b24c4c; }
+.walk-time-recommendation>p { margin-top: 8px; }
+.restroom-title { display: flex; align-items: center; gap: 7px; }
+.restroom-icon { font-size: 20px; }
+.restroom-card { overflow: hidden; }
+.restroom-content { width: 100%; max-width: 100%; display: grid; grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); gap: 14px; align-items: stretch; margin-top: 9px; }
+.restroom-content>* { min-width: 0; max-width: 100%; }
+.restroom-details { min-width: 0; }
+.restroom-card h3 { max-width: 100%; margin: 0; overflow: hidden; color: #394039; font-size: clamp(10px,.8vw,13px); line-height: 1.35; letter-spacing: -.45px; text-overflow: ellipsis; white-space: nowrap; }
+.restroom-english,.restroom-address-english { display: block; margin-top: 4px; color: #4d806a; font-size: 8px; font-weight: 800; line-height: 1.35; }
+.restroom-address-english { color: #7d8b82; font-weight: 700; }
+.restroom-meta { justify-content: flex-start; flex-wrap: wrap; margin-top: 10px; }
+.restroom-meta strong { color: #3f755c; font-size: 9px; }
+.restroom-meta .walk-time-badge { background: #eaf6ef; color: #2f7859; font-weight: 900; }
+.restroom-actions { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+.direction-button,.place-button { display: inline-block; padding: 9px 11px; border-radius: 10px; font-size: 9px; font-weight: 900; text-decoration: none; }
+.direction-button { background: #56a486; color: #fff; }
+.place-button { background: #f3f6f3; color: #5f6c64; }
+.empty-restroom { padding-top: 8px; }
+.data-note { margin: 10px 0 0; color: #949a95; font-size: 8px; }
+@media (max-width:1100px) {
+  .live-grid { grid-template-columns: minmax(210px,1.2fr) minmax(150px,.8fr); }
+  .restroom-card { grid-column: 1/-1; }
+  .restroom-content { grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); }
+}
+@media (max-width:720px) {
+  .location-dashboard { padding: 16px; }
+  .dashboard-heading { align-items: flex-start; }
+  .heading-status { gap: 6px; }
+  .basis-time { width: 100%; text-align: right; }
+  .live-grid { grid-template-columns: 1fr; }
+  .restroom-card { grid-column: auto; }
+  .restroom-content { grid-template-columns: 1fr; }
+  .restroom-card h3 { font-size: 13px; }
+  .air-card .aqi-row { justify-content: flex-start; }
+}
 </style>

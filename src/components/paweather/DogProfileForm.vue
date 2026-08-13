@@ -164,26 +164,33 @@ const confirmReset = async () => {
 </template>
 
 <style scoped>
-.profile-panel { min-width:0; padding:28px; border:1px solid #e9e5dd; border-radius:30px; background:rgba(255,255,255,.96); box-shadow:0 12px 30px rgba(88,78,60,.07); }
-.profile-title-row { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:21px; }
-.profile-title-row h2 { margin:5px 0 0; color:#343531; font-size:21px; }
-.profile-eyebrow { display:block; color:#8e9a91; font-size:10px; font-weight:900; letter-spacing:1.3px; }
-.saved-count { flex:0 0 auto; font-size:10px; font-weight:800; }
-.profile-form { display:grid; grid-template-columns:1fr; gap:2px; }
-.age-input { width:100%; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; }
-.profile-save-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:3px; }
-.profile-save-btn,.profile-reset-btn { width:100%; height:46px; margin:0; border-radius:12px; font-size:12px; font-weight:900; }
-.profile-save-btn { border:0; background:linear-gradient(135deg,#ff9e6f,#f18757); box-shadow:0 9px 20px rgba(224,126,79,.18); }
-.profile-save-btn:hover,.profile-save-btn:focus { background:linear-gradient(135deg,#f79566,#e87f50); }
-.profile-message,.age-notice { margin:10px 0 0; padding:10px 11px; border-radius:10px; font-size:11px; line-height:1.5; }
-.profile-message { background:#eef8f1; color:#438260; }
-.age-notice { background:#fff7e7; color:#91671f; }
-:deep(.el-form-item) { margin-bottom:15px; }
-:deep(.el-form-item__label) { height:auto; padding:0 0 6px; color:#555952; font-size:12px; font-weight:800; line-height:1.2; }
-:deep(.el-input__wrapper),:deep(.el-select__wrapper) { min-height:46px; border-radius:12px; box-shadow:0 0 0 1px #deded8 inset; }
-:deep(.el-input-number) { width:100%; }
-:deep(.el-input-number .el-input__wrapper) { padding-left:13px; }
-:deep(.el-segmented) { height:46px; padding:4px; --el-segmented-item-selected-color:#3f8468; --el-segmented-item-selected-bg-color:#fff; --el-segmented-bg-color:#f2f5f2; }
-:deep(.el-segmented__item) { min-width:42px; font-size:10px; font-weight:800; }
-@media(max-width:980px){.profile-panel{padding:24px}} @media(max-width:720px){.profile-panel{border-radius:20px}.age-input{grid-template-columns:1fr}.profile-save-row{grid-template-columns:1fr}}
+.profile-panel { min-width: 0; padding: 28px; border: 1px solid #e9e5dd; border-radius: 30px; background: rgba(255,255,255,.96); box-shadow: 0 12px 30px rgba(88,78,60,.07); }
+.profile-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 21px; }
+.profile-title-row h2 { margin: 5px 0 0; color: #343531; font-size: 21px; }
+.profile-eyebrow { display: block; color: #8e9a91; font-size: 10px; font-weight: 900; letter-spacing: 1.3px; }
+.saved-count { flex: 0 0 auto; font-size: 10px; font-weight: 800; }
+.profile-form { display: grid; grid-template-columns: 1fr; gap: 2px; }
+.age-input { width: 100%; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; }
+.profile-save-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 3px; }
+.profile-save-btn,.profile-reset-btn { width: 100%; height: 46px; margin: 0; border-radius: 12px; font-size: 12px; font-weight: 900; }
+.profile-save-btn { border: 0; background: linear-gradient(135deg,#ff9e6f,#f18757); box-shadow: 0 9px 20px rgba(224,126,79,.18); }
+.profile-save-btn:hover,.profile-save-btn:focus { background: linear-gradient(135deg,#f79566,#e87f50); }
+.profile-message,.age-notice { margin: 10px 0 0; padding: 10px 11px; border-radius: 10px; font-size: 11px; line-height: 1.5; }
+.profile-message { background: #eef8f1; color: #438260; }
+.age-notice { background: #fff7e7; color: #91671f; }
+:deep(.el-form-item) { margin-bottom: 15px; }
+:deep(.el-form-item__label) { height: auto; padding: 0 0 6px; color: #555952; font-size: 12px; font-weight: 800; line-height: 1.2; }
+:deep(.el-input__wrapper),:deep(.el-select__wrapper) { min-height: 46px; border-radius: 12px; box-shadow: 0 0 0 1px #deded8 inset; }
+:deep(.el-input-number) { width: 100%; }
+:deep(.el-input-number .el-input__wrapper) { padding-left: 13px; }
+:deep(.el-segmented) { height: 46px; padding: 4px; --el-segmented-item-selected-color: #3f8468; --el-segmented-item-selected-bg-color: #fff; --el-segmented-bg-color: #f2f5f2; }
+:deep(.el-segmented__item) { min-width: 42px; font-size: 10px; font-weight: 800; }
+@media (max-width:980px) {
+  .profile-panel { padding: 24px; }
+}
+@media (max-width:720px) {
+  .profile-panel { border-radius: 20px; }
+  .age-input { grid-template-columns: 1fr; }
+  .profile-save-row { grid-template-columns: 1fr; }
+}
 </style>
