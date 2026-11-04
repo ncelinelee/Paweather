@@ -12,9 +12,9 @@ const closeMenu = () => {
 
 <template>
   <div class="submission-nav">
-    <button class="menu-button" type="button" aria-label="과제 메뉴 열기" @click="isMenuOpen = true"><PaIcon name="menu" /></button>
+    <button class="menu-button" type="button" aria-label="서비스 메뉴 열기" @click="isMenuOpen = true"><PaIcon name="menu" /></button>
 
-    <el-drawer v-model="isMenuOpen" title="과제 진행 기록" direction="rtl" size="min(340px, 88vw)" class="assignment-drawer">
+    <el-drawer v-model="isMenuOpen" title="서비스와 개발 기록" direction="rtl" size="min(340px, 88vw)" class="assignment-drawer">
       <RouterLink to="/" @click="closeMenu">Paweather 홈</RouterLink>
       <RouterLink to="/about" @click="closeMenu">서비스 소개</RouterLink>
       <RouterLink to="/assignments/1" @click="closeMenu">과제 1 · Weather Mockup</RouterLink>
