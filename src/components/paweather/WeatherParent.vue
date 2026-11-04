@@ -19,9 +19,14 @@ import { fetchWeatherAndAir } from '@/services/weatherApi'
 import {
   reverseKoreanAddress,
   searchKoreanPlaces,
-  fetchNearestPublicRestroom,
-  getDistanceKm
+  fetchNearestPublicRestroom
 } from '@/services/kakaoLocalApi'
+
+import { getSeniorAge, getAgeInYears, getWalkEnvironmentFeelsLike, getRecommendedWalkMinutes, classifyWalkConditions } from '@/utils/walkConditions'
+import { usePlaceSearch, provinceOptions } from '@/composables/usePlaceSearch'
+import { useLiveLocation } from '@/composables/useLiveLocation'
+import { createMessages } from '@/i18n/messages'
+import { createLatestRequest } from '@/utils/latestRequest'
 
 import dogHero from '@/assets/dogs.jpeg'
 import paweatherLogo from '@/assets/paweather-logo.png'
@@ -35,112 +40,10 @@ const preferredMotion = usePreferredReducedMotion()
 // 1. KOR / ENG
 // 과제 5에서 만든 Pinia 언어 설정을 그대로 유지함.
 // ---------------------------------------------------------
-const messages = {
-  ko: {
-    navWeather: '날씨', navDonate: '유기견 후원하기',
-    heroChip: '대한민국 반려견 산책 날씨 서비스',
-    heroLine1: '반려견과 함께 보는', heroToday: '오늘의 산책 날씨',
-    heroDescription1: '실시간 날씨와 대기질을 확인하고',
-    heroDescription2: '내 주변 공중화장실까지 한 번에 찾아보세요.',
-    heroButton: '우리 아이 산책 지수 확인하기',
-    profileTitle: '우리 아이 프로필', savedCount: (count) => `저장 ${count}마리`,
-    name: '이름', age: '나이', years: '살', months: '개월', ageUnit: '나이 단위', size: '체급', dogNamePlaceholder: '반려견 이름',
-    smallDog: '소형견', mediumDog: '중형견', largeDog: '대형견',
-    saveProfile: '프로필 저장', resetProfile: '프로필 초기화',
-    nameRequired: '반려견 이름을 입력해주세요.', nameLength: '이름은 10자 이하로 입력해주세요.',
-    ageRequired: '반려견 나이를 입력해주세요.', monthRange: '1~11개월의 정수를 입력해주세요.', yearRange: '1~30살의 정수를 입력해주세요.',
-    sizeRequired: '체급을 선택해주세요.', resetConfirmTitle: '프로필 초기화',
-    resetConfirmText: '저장한 반려견 프로필을 모두 삭제할까요?', confirm: '초기화', cancel: '취소',
-    searchTitle: '위치 검색', province: '시·도', area: '장소·주소',
-    searchPlaceholder: '예: 울산대공원, 삼산로 123, 삼산동', search: '검색', reset: '초기화',
-    feelsLike: '체감', humidity: '습도', rainChance: '강수확률', wind: '풍속',
-    feelStatus: '습도 상태', defaultWalk: '산책 지수', details: '상세보기',
-    walkIndex: '산책 지수', basedOn: (name) => `(${name} 기준)`,
-    dogWalkTitle: (dog) => `${formatDogAge(dog)} ${getDogSizeLabel(dog.size)} ${dog.name}의 산책 지수`,
-    dogFeelsLike: (_name, temp, symbol = '°C') => `환경 체감온도 ${temp}${symbol}`,
-    dogFeelsLikeNote: '기온·습도·바람 기준 · 나이·체급은 산책 위험 단계에 별도 반영',
-    temperature: '기온', guardianTip: '보호자 TIP', mustCheck: '꼭 확인',
-    tipAsphalt: '더운 날에는 아스팔트 온도를 손등으로 체크해주세요.',
-    tipRain: '일반적인 비는 위험 단계로 보지 않아요. 우비를 입고 짧게 산책한 뒤 발과 털을 잘 말려주세요.',
-    tipCold: '추운 날에는 산책을 짧게 하고 발바닥·귀·꼬리 끝의 냉기 노출을 확인해주세요.',
-    tipAir: '대기질이 좋지 않은 날에는 산책 시간을 줄이고 호흡 상태를 확인해주세요.',
-    recommendedTime: (minutes) => `권장 산책 ${minutes}분`,
-    tipDanger: '오늘은 실외 산책을 피하고 실내 활동을 추천해요.',
-    tipCaution: '상태를 자주 확인하고 산책 시간을 짧게 조절해주세요.',
-    tipNormal: '강아지 상태를 확인하면서 가볍게 산책해주세요.',
-    tipWater: '물을 충분히 준비하고 자주 쉬어주세요.',
-    noDogTitle: '우리 아이 프로필을 저장해주세요.',
-    noDogDescription: '저장하면 현재 위치 또는 검색한 장소·주소 기준 맞춤 산책 지수가 표시돼요.',
-    aboutTitle: 'Paweather는?',
-    aboutDescription1: '대한민국 반려견 보호자의 실제 산책 상황에 맞춰',
-    aboutDescription2: '날씨·대기질·공중화장실 위치를 연결한 서비스입니다.',
-    featureWeather: '실시간 날씨 + 대기질',
-    featureWeatherDesc: 'OpenWeather API로 현재 날씨와 AQI·PM2.5·PM10 확인',
-    featureRefresh: '현재 위치 자동 반영',
-    featureRefreshDesc: 'Geolocation으로 이동 위치를 갱신하고 가까운 공중화장실 거리 재계산',
-    featureDog: '우리 아이 맞춤 가이드',
-    featureDogDesc: '나이·체급·날씨·대기질을 함께 반영한 산책 상태 제공',
-    guideTitle: '산책 가이드', safe: '안전', safeDesc: '산책하기 좋은 조건',
-    light: '가벼운 산책 가능', lightDesc: '짧고 가볍게 산책 가능',
-    caution: '주의', cautionDesc: '산책 시간을 줄이고 상태 자주 확인',
-    danger: '위험', dangerDesc: '실외 산책 피하기',
-    banner1: '오늘의 날씨와 대기질을 확인하고', banner2: '우리 아이와 안전한 산책을 즐기세요!',
-    info: '과제 6: Axios로 OpenWeather 날씨·대기질 API와 Kakao Local API를 연동했습니다. 위치 권한을 허용하면 현재 행정동과 가까운 공중화장실을 자동으로 찾습니다.',
-    footerLinks: '서비스 소개 · 과제 진행 기록 · 문의하기',
-    offlineTitle: '인터넷 연결이 끊겼어요', offlineDescription: '기존 정보는 볼 수 있지만 새로운 위치·날씨·대기질 검색은 연결 후 이용할 수 있어요.',
-    veryHot: '매우 더움', hot: '더움', mild: '온화함', comfortable: '쾌적', slightlyHumid: '약간 습함', humid: '습함'
-  },
-  en: {
-    navWeather: 'Weather', navDonate: 'Donate to Rescue Dogs',
-    heroChip: 'Korea walk-weather service for dog owners',
-    heroLine1: 'Check today’s', heroToday: 'walk weather with your dog',
-    heroDescription1: 'Check live weather and air quality,',
-    heroDescription2: 'then find the nearest public restroom for your walk.',
-    heroButton: 'Check My Dog’s Walk Index',
-    profileTitle: 'My Dog Profile', savedCount: (count) => `${count} saved`,
-    name: 'Name', age: 'Age', years: 'yr', months: 'mo', ageUnit: 'Age unit', size: 'Size', dogNamePlaceholder: 'Dog name',
-    smallDog: 'Small', mediumDog: 'Medium', largeDog: 'Large',
-    saveProfile: 'Save Profile', resetProfile: 'Reset Profile',
-    nameRequired: 'Please enter a dog name.', nameLength: 'Use 10 characters or fewer.',
-    ageRequired: 'Please enter your dog’s age.', monthRange: 'Enter a whole number from 1 to 11 months.', yearRange: 'Enter a whole number from 1 to 30 years.',
-    sizeRequired: 'Select a size.', resetConfirmTitle: 'Reset profiles',
-    resetConfirmText: 'Delete all saved dog profiles?', confirm: 'Reset', cancel: 'Cancel',
-    searchTitle: 'Search location', province: 'Province / Metro', area: 'Place / Address',
-    searchPlaceholder: 'e.g. Ulsan Grand Park, Samsan-ro 123', search: 'Search', reset: 'Reset',
-    feelsLike: 'Feels', humidity: 'Humidity', rainChance: 'Rain chance', wind: 'Wind',
-    feelStatus: 'Humidity', defaultWalk: 'Walk index', details: 'Details',
-    walkIndex: 'Walk Index', basedOn: (name) => `(Based on ${name})`,
-    dogWalkTitle: (dog) => `${dog.name} · ${formatDogAge(dog)} · ${getDogSizeLabel(dog.size)}`,
-    dogFeelsLike: (_name, temp, symbol = '°C') => `Environmental feels-like ${temp}${symbol}`,
-    dogFeelsLikeNote: 'Based on temperature, humidity and wind · age and size adjust the risk level',
-    temperature: 'Temp', guardianTip: 'OWNER TIP', mustCheck: 'CHECK',
-    tipAsphalt: 'On hot days, check pavement temperature with the back of your hand.',
-    tipRain: 'Normal rain is treated as a light-walk condition. Use rain gear and dry paws afterward.',
-    tipCold: 'In cold conditions, keep walks short and watch paws, ears and the tail tip.',
-    tipAir: 'When air quality is poor, shorten the walk and monitor breathing.',
-    recommendedTime: (minutes) => `Suggested walk: ${minutes} min`,
-    tipDanger: 'Avoid outdoor walks today and choose indoor activity.',
-    tipCaution: 'Keep the walk short and monitor your dog closely.',
-    tipNormal: 'Keep the walk light and watch your dog’s condition.',
-    tipWater: 'Bring enough water and take frequent breaks.',
-    noDogTitle: 'Save your dog’s profile first.',
-    noDogDescription: 'Personalized guidance will use your live location or selected place and address.',
-    aboutTitle: 'What is Paweather?',
-    aboutDescription1: 'Built for real dog-walking situations in Korea,',
-    aboutDescription2: 'connecting weather, air quality and nearby public restrooms.',
-    featureWeather: 'Live Weather + Air', featureWeatherDesc: 'OpenWeather current conditions, AQI, PM2.5 and PM10',
-    featureRefresh: 'Live Location', featureRefreshDesc: 'Geolocation updates your position and recalculates the nearest public restroom',
-    featureDog: 'Personalized Guide', featureDogDesc: 'Walk guidance based on age, size, weather and air quality',
-    guideTitle: 'Walk Guide', safe: 'Safe', safeDesc: 'Good conditions for a walk',
-    light: 'Light walk OK', lightDesc: 'Keep it short and light', caution: 'Caution', cautionDesc: 'Shorten the walk and monitor closely',
-    danger: 'Danger', dangerDesc: 'Avoid outdoor walking',
-    banner1: 'Check today’s weather and air quality', banner2: 'and enjoy a safer walk together!',
-    info: 'Assignment 6: Axios connects OpenWeather weather/air-quality APIs and Kakao Local API. Allow location permission for live administrative-area and nearby-restroom updates.',
-    footerLinks: 'About · Assignment Progress · Contact',
-    offlineTitle: 'You are offline', offlineDescription: 'Existing information remains visible, but new location, weather and air-quality requests need a connection.',
-    veryHot: 'Very hot', hot: 'Hot', mild: 'Mild', comfortable: 'Comfortable', slightlyHumid: 'Slightly humid', humid: 'Humid'
-  }
-}
+const messages = createMessages({
+  formatDogAge: (...args) => formatDogAge(...args),
+  getDogSizeLabel: (...args) => getDogSizeLabel(...args)
+})
 
 const t = (key, ...args) => {
   const value = messages[configStore.language][key]
@@ -150,98 +53,28 @@ const t = (key, ...args) => {
 // ---------------------------------------------------------
 // 2. 대한민국 시·도 → 장소·도로명·지번 검색 (Kakao Local)
 // ---------------------------------------------------------
-const provinceOptions = [
-  '서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시',
-  '대전광역시', '울산광역시', '세종특별자치시', '경기도', '강원특별자치도',
-  '충청북도', '충청남도', '전북특별자치도', '전라남도', '경상북도',
-  '경상남도', '제주특별자치도'
-]
-
-const selectedProvince = ref('울산광역시')
-const searchQuery = ref('')
-const searchSuggestions = ref([])
-const searchLoading = ref(false)
-const searchMessage = ref('')
 const selectedCityInfo = ref(null)
 const currentTime = ref('')
-let searchDebounceId = null
-
-const runAreaSearch = async ({ autoSelect = false } = {}) => {
-  const keyword = searchQuery.value.trim()
-  searchMessage.value = ''
-
-  if (!isOnline.value) {
-    searchSuggestions.value = []
-    searchMessage.value = t('offlineDescription')
-    return
-  }
-
-  if (!selectedProvince.value) {
-    searchSuggestions.value = []
-    searchMessage.value = configStore.language === 'en' ? 'Select a province first.' : '먼저 시·도를 선택해주세요.'
-    return
-  }
-
-  if (!keyword) {
-    searchSuggestions.value = []
-    return
-  }
-
-  searchLoading.value = true
-  try {
-    searchSuggestions.value = await searchKoreanPlaces(keyword, selectedProvince.value)
-
-    if (searchSuggestions.value.length === 0) {
-      searchMessage.value = configStore.language === 'en'
-        ? `No place or address matching “${keyword}” was found in the selected province.`
-        : `${selectedProvince.value}에서 “${keyword}” 장소나 주소를 찾지 못했어요.`
-      return
-    }
-
-    if (autoSelect) {
-      await selectSuggestion(searchSuggestions.value[0])
-    }
-  } catch (error) {
-    console.error('[지역 검색 오류]', error)
-    searchSuggestions.value = []
-    searchMessage.value = getReadableApiError(error, configStore.language === 'en' ? 'Place and address search failed.' : '장소·주소 검색에 실패했어요.')
-  } finally {
-    searchLoading.value = false
-  }
-}
-
-watch(searchQuery, (value) => {
-  clearTimeout(searchDebounceId)
-
-  const keyword = value.trim()
-  const selectedNames = selectedCityInfo.value
-    ? [selectedCityInfo.value.searchName, selectedCityInfo.value.name, selectedCityInfo.value.nameKo, selectedCityInfo.value.nameEn].filter(Boolean)
-    : []
-
-  if (selectedNames.includes(keyword)) {
-    searchSuggestions.value = []
-    return
-  }
-
-  if (keyword.length < 2) {
-    searchSuggestions.value = []
-    return
-  }
-
-  searchDebounceId = setTimeout(() => runAreaSearch(), 450)
+const selectionRequest = createLatestRequest()
+const {
+  selectedProvince, searchQuery, searchSuggestions, searchLoading, searchMessage,
+  suggestionRequest, updateProvince, resetSearch, searchWeather
+} = usePlaceSearch({
+  language: computed(() => configStore.language), isOnline, selectedCityInfo,
+  searchPlaces: searchKoreanPlaces,
+  onSelect: (location) => selectSuggestion(location),
+  onQueryChanged: () => selectionRequest.invalidate(),
+  onClear: () => {
+    selectedCityInfo.value = null
+    selectedNearestRestroom.value = null
+    selectedRestroomMessage.value = ''
+  },
+  readableError: (...args) => getReadableApiError(...args)
 })
 
-const updateProvince = (value) => {
-  selectedProvince.value = value
-  searchQuery.value = ''
-  searchSuggestions.value = []
-  selectedCityInfo.value = null
-  selectedNearestRestroom.value = null
-  selectedRestroomMessage.value = ''
-  searchMessage.value = ''
-}
-
 const selectSuggestion = async (location) => {
+  suggestionRequest.invalidate()
+  const request = selectionRequest.start()
   searchLoading.value = true
   searchMessage.value = ''
   try {
@@ -254,6 +87,7 @@ const selectSuggestion = async (location) => {
       console.warn('[검색 지역 행정동 조회 오류]', error)
     }
 
+    if (!selectionRequest.isCurrent(request)) return
     const displayRegion = region?.addressName || selectedProvince.value
     const searchName = location.placeName || location.name || location.exactAddress || (configStore.language === 'en' ? 'Searched location' : '검색 위치')
     const exactAddress = location.exactAddress || location.roadAddress || location.addressName || ''
@@ -288,24 +122,14 @@ const selectSuggestion = async (location) => {
       province: region?.province || selectedProvince.value,
       district: region?.district || '',
       neighborhood: region?.neighborhood || ''
-    })
+    }, request)
   } catch (error) {
+    if (!selectionRequest.isCurrent(request)) return
     console.error('[날씨 조회 오류]', error)
     searchMessage.value = getReadableApiError(error, configStore.language === 'en' ? 'Unable to load weather data.' : '날씨를 불러오지 못했어요.')
   } finally {
-    searchLoading.value = false
+    if (selectionRequest.isCurrent(request)) searchLoading.value = false
   }
-}
-
-const searchWeather = () => runAreaSearch({ autoSelect: true })
-
-const resetSearch = () => {
-  searchQuery.value = ''
-  searchSuggestions.value = []
-  selectedCityInfo.value = null
-  selectedNearestRestroom.value = null
-  selectedRestroomMessage.value = ''
-  searchMessage.value = ''
 }
 
 const getDisplayWeather = (weather) => ({
@@ -319,18 +143,16 @@ const getDisplayWeather = (weather) => ({
 // 3. 현재 위치 + 대기질 + 가까운 공중화장실
 // Kakao Local API로 좌표 → 행정동(시/구/동) 변환과 주변 화장실 검색을 처리함.
 // ---------------------------------------------------------
-const currentLocation = ref(null)
-const currentWeather = ref(null)
-const currentAirQuality = ref(null)
-const nearestRestroom = ref(null)
 const selectedNearestRestroom = ref(null)
-const locationMessage = ref('')
-const restroomMessage = ref('')
 const selectedRestroomMessage = ref('')
-const locationLoading = ref(true)
-let locationWatchId = null
-let lastWeatherFetchLocation = null
-let reverseRequestToken = 0
+const {
+  currentLocation, currentWeather, currentAirQuality, nearestRestroom,
+  locationMessage, restroomMessage, locationLoading
+} = useLiveLocation({
+  language: computed(() => configStore.language),
+  getRestroomResult: (...args) => getRestroomResultForLocation(...args),
+  readableError: (...args) => getReadableApiError(...args)
+})
 
 const getReadableApiError = (error, fallback) => {
   const status = error?.response?.status
@@ -338,14 +160,14 @@ const getReadableApiError = (error, fallback) => {
   const isEnglish = configStore.language === 'en'
 
   if (status === 401 || status === 403) return isEnglish
-    ? 'Check the API key. Restart npm run dev after editing .env.'
-    : 'API 키를 확인해주세요. .env 수정 후 npm run dev를 다시 실행해야 해요.'
+    ? 'The weather service is temporarily unavailable. Please try again later.'
+    : '날씨 서비스를 잠시 이용할 수 없어요. 잠시 후 다시 시도해주세요.'
   if (message.includes('API_KEY') || message.includes('KAKAO')) return isEnglish
-    ? 'Check the required API key in .env and restart the development server.'
-    : message
+    ? 'The location service is temporarily unavailable. Please try again later.'
+    : '위치 서비스를 잠시 이용할 수 없어요. 잠시 후 다시 시도해주세요.'
   if (message.includes('Network Error')) return isEnglish
-    ? 'Could not connect to the API. Check the network or development-server proxy.'
-    : 'API 서버 연결에 실패했어요. 네트워크 또는 개발 서버 프록시를 확인해주세요.'
+    ? 'Could not connect to the service. Check your connection and try again.'
+    : '서비스에 연결하지 못했어요. 인터넷 연결을 확인하고 다시 시도해주세요.'
   return fallback
 }
 
@@ -367,106 +189,13 @@ const getRestroomResultForLocation = async (location) => {
   }
 }
 
-const loadRestroomForLocation = async (location) => {
-  const result = await getRestroomResultForLocation(location)
-  nearestRestroom.value = result.nearest
-  restroomMessage.value = result.message
-}
-
-const loadSelectedRestroomForLocation = async (location) => {
+const loadSelectedRestroomForLocation = async (location, request) => {
   selectedNearestRestroom.value = null
   selectedRestroomMessage.value = configStore.language === 'en' ? 'Checking nearby public restrooms...' : '검색한 지역의 공중화장실을 확인하는 중...'
   const result = await getRestroomResultForLocation(location)
+  if (!selectionRequest.isCurrent(request)) return
   selectedNearestRestroom.value = result.nearest
   selectedRestroomMessage.value = result.message
-}
-
-const loadLiveWeather = async (location) => {
-  try {
-    const result = await fetchWeatherAndAir(location)
-    currentWeather.value = result.weather
-    currentAirQuality.value = result.airQuality
-    lastWeatherFetchLocation = { ...location }
-    locationMessage.value = ''
-  } catch (error) {
-    console.error('[현재 위치 날씨 오류]', error)
-    locationMessage.value = getReadableApiError(error, configStore.language === 'en' ? 'Unable to load weather and air quality for your location.' : '현재 위치의 날씨·대기질을 불러오지 못했어요.')
-  }
-}
-
-const handlePosition = async (position) => {
-  const rawLocation = {
-    latitude: position.coords.latitude,
-    longitude: position.coords.longitude,
-    accuracy: Math.round(position.coords.accuracy || 0),
-    name: currentLocation.value?.name || '현재 위치',
-    addressName: currentLocation.value?.addressName || '',
-    province: currentLocation.value?.province || '',
-    district: currentLocation.value?.district || '',
-    neighborhood: currentLocation.value?.neighborhood || ''
-  }
-
-  currentLocation.value = rawLocation
-  locationLoading.value = false
-
-  // GPS 좌표가 조금 움직여도 이미 찾은 화장실까지의 직선거리는 즉시 다시 계산함.
-  if (nearestRestroom.value) {
-    nearestRestroom.value = {
-      ...nearestRestroom.value,
-      distanceMeters: Math.round(getDistanceKm(
-        rawLocation.latitude,
-        rawLocation.longitude,
-        nearestRestroom.value.latitude,
-        nearestRestroom.value.longitude
-      ) * 1000)
-    }
-  }
-
-  // 외부 API는 GPS 오차로 매번 재호출하지 않고 첫 조회 또는 약 500m 이동 시 다시 호출함.
-  const shouldRefresh = !lastWeatherFetchLocation ||
-    getDistanceKm(
-      lastWeatherFetchLocation.latitude,
-      lastWeatherFetchLocation.longitude,
-      rawLocation.latitude,
-      rawLocation.longitude
-    ) >= 0.5
-
-  let effectiveLocation = currentLocation.value
-
-  if (shouldRefresh || !currentLocation.value?.addressName) {
-    const token = ++reverseRequestToken
-    try {
-      const region = await reverseKoreanAddress(rawLocation.latitude, rawLocation.longitude)
-      if (token === reverseRequestToken && region) {
-        currentLocation.value = {
-          ...rawLocation,
-          ...region,
-          name: region.addressName || '현재 위치'
-        }
-        effectiveLocation = currentLocation.value
-      }
-    } catch (error) {
-      console.warn('[Kakao 행정동 조회 오류]', error)
-    }
-  }
-
-  if (shouldRefresh) {
-    await Promise.all([
-      loadLiveWeather(effectiveLocation),
-      loadRestroomForLocation(effectiveLocation)
-    ])
-  }
-}
-
-const handlePositionError = (error) => {
-  locationLoading.value = false
-  if (error.code === error.PERMISSION_DENIED) {
-    locationMessage.value = configStore.language === 'en' ? 'Allow location access in your browser.' : '브라우저에서 위치 권한을 허용해주세요.'
-  } else if (error.code === error.POSITION_UNAVAILABLE) {
-    locationMessage.value = configStore.language === 'en' ? 'Your current location is unavailable.' : '현재 위치를 확인할 수 없어요.'
-  } else {
-    locationMessage.value = configStore.language === 'en' ? 'The location request timed out. Please try again.' : '현재 위치 요청 시간이 초과됐어요. 다시 시도해주세요.'
-  }
 }
 
 // ---------------------------------------------------------
@@ -476,13 +205,9 @@ const dogProfile = reactive({ name: '', age: '', ageUnit: 'years', size: '대형
 const profileMessage = ref('')
 const ageNotice = ref('')
 
-const getSeniorAge = (size) => {
-  if (size === '대형견') return 7
-  if (size === '중형견') return 9
-  return 11
-}
 
-const getAgeInYears = (age, ageUnit = 'years') => ageUnit === 'months' ? Number(age) / 12 : Number(age)
+
+
 
 const formatDogAge = (dog) => {
   const storedAge = Number(dog.age)
@@ -567,47 +292,11 @@ const getDogSizeLabel = (size) => {
   return 'Large'
 }
 
-const getEnvironmentalFeelsLike = (tempC, humidity, wind = 0) => {
-  const temperature = Number(tempC)
-  const relativeHumidity = Number(humidity)
-  const windMps = Number(wind)
 
-  // 추울 때는 풍속을 반영한 wind-chill, 더울 때는 습도를 반영한 heat-index를 사용한다.
-  if (temperature <= 10 && windMps >= 1.34) {
-    const windKmh = windMps * 3.6
-    const windFactor = windKmh ** 0.16
-    return 13.12 + 0.6215 * temperature - 11.37 * windFactor + 0.3965 * temperature * windFactor
-  }
 
-  if (temperature < 27 || relativeHumidity < 40) return temperature
-  const tempF = temperature * 9 / 5 + 32
-  const heatIndexF =
-    -42.379 + 2.04901523 * tempF + 10.14333127 * relativeHumidity - 0.22475541 * tempF * relativeHumidity -
-    0.00683783 * tempF * tempF - 0.05481717 * relativeHumidity * relativeHumidity +
-    0.00122874 * tempF * tempF * relativeHumidity + 0.00085282 * tempF * relativeHumidity * relativeHumidity -
-    0.00000199 * tempF * tempF * relativeHumidity * relativeHumidity
-  return (heatIndexF - 32) * 5 / 9
-}
 
-const getDogThermalVulnerability = (dog, environmentalFeelsLike) => {
-  const age = Number(dog?.age)
-  const size = dog?.size || '중형견'
-  const senior = age >= getSeniorAge(size)
-  const reasons = []
 
-  if (age < 1) reasons.push('puppy')
-  else if (senior) reasons.push('senior')
 
-  if (environmentalFeelsLike >= 24 && size === '대형견') reasons.push('largeHeat')
-  if (environmentalFeelsLike <= 10 && size === '소형견') reasons.push('smallCold')
-
-  // 개별 위험 요인은 온도를 임의로 바꾸지 않고 더위·추위 구간에서 위험도를 한 단계만 높인다.
-  const isThermalStressZone = environmentalFeelsLike >= 24 || environmentalFeelsLike <= 10
-  return { adjustment: isThermalStressZone && reasons.length ? 1 : 0, reasons }
-}
-
-const getWalkEnvironmentFeelsLike = (tempC, humidity, wind) =>
-  Math.round(getEnvironmentalFeelsLike(tempC, humidity, wind))
 
 const getVulnerabilityNote = (reasons) => {
   if (!reasons.length) return ''
@@ -625,32 +314,8 @@ const getWalkLevel = (weather, dog) => {
     return { level: '정보없음', className: 'walk-light', icon: 'paw', shortLabel: '-', message: configStore.language === 'en' ? 'Loading weather information...' : '날씨 정보를 불러오는 중이에요.', description: '' }
   }
 
-  const dogFeelsLike = getWalkEnvironmentFeelsLike(weather.temp, weather.humidity, weather.wind)
-  const aqi = Number(weather.aqi || 0)
-  let baseLevel = '안전'
-
-  if (
-    weather.status === '뇌우' || weather.status === '폭우' ||
-    dogFeelsLike >= 34 || dogFeelsLike <= -10 || weather.wind >= 12 || aqi >= 5
-  ) {
-    baseLevel = '위험'
-  } else if (
-    dogFeelsLike >= 30 || dogFeelsLike <= 0 ||
-    weather.wind >= 8 || aqi >= 4
-  ) {
-    baseLevel = '주의'
-  } else if (
-    weather.status === '비' || dogFeelsLike >= 26 || dogFeelsLike <= 7 || weather.humidity >= 80 || aqi >= 3
-  ) {
-    baseLevel = '가벼운 산책 가능'
-  }
-
-  const levels = ['안전', '가벼운 산책 가능', '주의', '위험']
-  const vulnerability = getDogThermalVulnerability(dog, dogFeelsLike)
-  const baseLevelIndex = levels.indexOf(baseLevel)
-  const finalLevelIndex = Math.min(baseLevelIndex + vulnerability.adjustment, levels.length - 1)
-  const level = levels[finalLevelIndex]
-  const vulnerabilityNote = finalLevelIndex > baseLevelIndex ? getVulnerabilityNote(vulnerability.reasons) : ''
+  const { level, reasons } = classifyWalkConditions(weather, dog)
+  const vulnerabilityNote = getVulnerabilityNote(reasons)
 
   const resultByLevel = {
     위험: {
@@ -679,15 +344,7 @@ const getWalkLevel = (weather, dog) => {
   return { level, ...result, description: vulnerabilityNote ? `${result.description} ${vulnerabilityNote}` : result.description }
 }
 
-const getRecommendedWalkMinutes = (dog, level) => {
-  if (level !== '가벼운 산책 가능') return null
-  const age = Number(dog.age)
-  const seniorAge = getSeniorAge(dog.size)
-  if (age < 1 || age >= seniorAge) return 10
-  if (dog.size === '소형견') return 10
-  if (dog.size === '중형견') return 20
-  return 30
-}
+
 
 const primaryDog = computed(() => profileStore.primaryDog)
 const primaryDogDisplay = computed(() => primaryDog.value ? { ...primaryDog.value, sizeLabel: getDogSizeLabel(primaryDog.value.size) } : null)
@@ -844,26 +501,12 @@ let timerId = null
 onMounted(() => {
   updateCurrentTime()
   timerId = setInterval(updateCurrentTime, 60 * 1000)
-
-  if (!navigator.geolocation) {
-    locationLoading.value = false
-    locationMessage.value = configStore.language === 'en' ? 'This browser does not support geolocation.' : '이 브라우저는 위치 기능을 지원하지 않아요.'
-    return
-  }
-
-  locationWatchId = navigator.geolocation.watchPosition(
-    handlePosition,
-    handlePositionError,
-    { enableHighAccuracy: true, maximumAge: 30_000, timeout: 12_000 }
-  )
 })
 
 onUnmounted(() => {
+  suggestionRequest.invalidate()
+  selectionRequest.invalidate()
   clearInterval(timerId)
-  clearTimeout(searchDebounceId)
-  if (locationWatchId != null && navigator.geolocation) {
-    navigator.geolocation.clearWatch(locationWatchId)
-  }
 })
 </script>
 
@@ -942,7 +585,8 @@ onUnmounted(() => {
             recommendedTime: (minutes) => t('recommendedTime', minutes), temperature: t('temperature'), humidity: t('humidity'), rainChance: t('rainChance'),
             guardianTip: t('guardianTip'), mustCheck: t('mustCheck'), tipAsphalt: t('tipAsphalt'), tipRain: t('tipRain'), tipCold: t('tipCold'),
             tipAir: t('tipAir'), tipDanger: t('tipDanger'), tipCaution: t('tipCaution'), tipNormal: t('tipNormal'), tipWater: t('tipWater'),
-            noDogTitle: t('noDogTitle'), noDogDescription: t('noDogDescription')
+            noDogTitle: t(profileStore.savedCount ? 'noWeatherTitle' : 'noDogTitle'),
+            noDogDescription: t(profileStore.savedCount ? 'noWeatherDescription' : 'noDogDescription')
           }"
         />
       </div>
